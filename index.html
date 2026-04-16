@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>American Dream Index</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-stars">★ ★ ★</span>
+        <span class="logo-title">American Dream Index</span>
+      </div>
+      <p class="header-sub">A data-driven measure of economic opportunity &amp; upward mobility</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="progress-wrap" id="progressWrap" style="display:none">
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <span class="progress-label" id="progressLabel"></span>
+    </div>
+
+    <div id="stepsRoot">
+
+      <!-- STEP 0: Welcome -->
+      <section class="step active" id="step-0">
+        <div class="card welcome-card">
+          <div class="welcome-stars">★&nbsp;&nbsp;★&nbsp;&nbsp;★</div>
+          <h1 class="welcome-title">How Close Are You to<br>the American Dream?</h1>
+          <p class="welcome-intro">This index uses peer-reviewed research to give you a personal score across seven measurable dimensions of upward mobility — the true measure of the American Dream.</p>
+
+          <div class="definition-box">
+            <strong>Our Definition</strong>
+            <p>The American Dream = <em>meaningful upward economic mobility</em> — the ability to achieve financial security, homeownership, and a better life than the generation before you, regardless of where you started.</p>
+          </div>
+
+          <div class="pillars-grid">
+            <div class="pillar"><span class="pillar-icon">💰</span><span>Income</span><span class="pillar-weight">25%</span></div>
+            <div class="pillar"><span class="pillar-icon">📈</span><span>Mobility</span><span class="pillar-weight">20%</span></div>
+            <div class="pillar"><span class="pillar-icon">🎓</span><span>Education</span><span class="pillar-weight">15%</span></div>
+            <div class="pillar"><span class="pillar-icon">🏠</span><span>Housing</span><span class="pillar-weight">15%</span></div>
+            <div class="pillar"><span class="pillar-icon">💳</span><span>Financial Security</span><span class="pillar-weight">15%</span></div>
+            <div class="pillar"><span class="pillar-icon">🏥</span><span>Health</span><span class="pillar-weight">5%</span></div>
+            <div class="pillar"><span class="pillar-icon">📍</span><span>Geography</span><span class="pillar-weight">5%</span></div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" onclick="goToStep(1)">Calculate My Score →</button>
+          <p class="privacy-note">🔒 All calculations happen locally in your browser. Nothing is stored or transmitted.</p>
+        </div>
+      </section>
+
+      <!-- STEP 1: About You -->
+      <section class="step" id="step-1">
+        <div class="card">
+          <div class="step-icon">👤</div>
+          <h2>About You</h2>
+          <p class="step-desc">Basic context helps benchmark your results against national data.</p>
+
+          <div class="form-group">
+            <label class="form-label">Your current age</label>
+            <div class="slider-wrap">
+              <input type="range" id="age" min="18" max="75" value="35" class="range-input" oninput="syncSlider('age','ageVal')">
+              <div class="slider-readout"><span id="ageVal">35</span> years old</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">State of residence</label>
+            <select class="form-select" id="state">
+              <option value="">Select your state…</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Household size (people sharing income/expenses)</label>
+            <div class="opt-row" id="householdSize-opts">
+              <button class="opt-btn" onclick="pick(this,'householdSize','1')">1</button>
+              <button class="opt-btn" onclick="pick(this,'householdSize','2')">2</button>
+              <button class="opt-btn" onclick="pick(this,'householdSize','3')">3</button>
+              <button class="opt-btn" onclick="pick(this,'householdSize','4')">4</button>
+              <button class="opt-btn" onclick="pick(this,'householdSize','5')">5</button>
+              <button class="opt-btn" onclick="pick(this,'householdSize','6')">6+</button>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goToStep(0)">← Back</button>
+            <button class="btn btn-primary" onclick="next(1,2,['state','householdSize'])">Next →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2: Income -->
+      <section class="step" id="step-2">
+        <div class="card">
+          <div class="step-icon">💰</div>
+          <h2>Income &amp; Employment</h2>
+          <p class="step-desc">Income is the most direct signal of economic position. The U.S. median household income is <strong>$74,580</strong> (Census Bureau, 2022).</p>
+
+          <div class="form-group">
+            <label class="form-label">Total annual household income (before taxes)</label>
+            <div class="opt-col" id="income-opts">
+              <button class="opt-btn" onclick="pick(this,'income','under25')">Under $25,000</button>
+              <button class="opt-btn" onclick="pick(this,'income','25to40')">$25,000 – $40,000</button>
+              <button class="opt-btn" onclick="pick(this,'income','40to60')">$40,000 – $60,000</button>
+              <button class="opt-btn" onclick="pick(this,'income','60to80')">$60,000 – $80,000</button>
+              <button class="opt-btn" onclick="pick(this,'income','80to100')">$80,000 – $100,000</button>
+              <button class="opt-btn" onclick="pick(this,'income','100to150')">$100,000 – $150,000</button>
+              <button class="opt-btn" onclick="pick(this,'income','150to250')">$150,000 – $250,000</button>
+              <button class="opt-btn" onclick="pick(this,'income','over250')">$250,000+</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Employment status</label>
+            <div class="opt-grid" id="employment-opts">
+              <button class="opt-btn" onclick="pick(this,'employment','fulltime')">Full-time employed</button>
+              <button class="opt-btn" onclick="pick(this,'employment','selfemployed')">Self-employed</button>
+              <button class="opt-btn" onclick="pick(this,'employment','parttime')">Part-time employed</button>
+              <button class="opt-btn" onclick="pick(this,'employment','retired')">Retired</button>
+              <button class="opt-btn" onclick="pick(this,'employment','unemployed')">Unemployed</button>
+              <button class="opt-btn" onclick="pick(this,'employment','student')">Student</button>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goToStep(1)">← Back</button>
+            <button class="btn btn-primary" onclick="next(2,3,['income','employment'])">Next →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 3: Mobility -->
+      <section class="step" id="step-3">
+        <div class="card">
+          <div class="step-icon">📈</div>
+          <h2>Upward Mobility</h2>
+          <p class="step-desc">Harvard economist Raj Chetty's research shows that <em>where you start</em> strongly predicts where you end up — but surpassing your parents is the defining measure of the American Dream. Only about <strong>50% of Americans</strong> out-earn their parents (Chetty et al., 2017).</p>
+
+          <div class="form-group">
+            <label class="form-label">Your parents' economic class while you were growing up</label>
+            <div class="opt-col" id="parentsClass-opts">
+              <button class="opt-btn" onclick="pick(this,'parentsClass','poor')">Poor — struggled to meet basic needs</button>
+              <button class="opt-btn" onclick="pick(this,'parentsClass','working')">Working class — paycheck to paycheck</button>
+              <button class="opt-btn" onclick="pick(this,'parentsClass','middle')">Middle class — stable, some savings</button>
+              <button class="opt-btn" onclick="pick(this,'parentsClass','uppermiddle')">Upper-middle class — comfortable, vacations, college</button>
+              <button class="opt-btn" onclick="pick(this,'parentsClass','wealthy')">Wealthy — significant assets, financial security</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Compared to your parents at a similar age, your financial situation is…</label>
+            <div class="opt-col" id="mobilityChange-opts">
+              <button class="opt-btn" onclick="pick(this,'mobilityChange','muchworse')">Much worse than my parents</button>
+              <button class="opt-btn" onclick="pick(this,'mobilityChange','worse')">Somewhat worse than my parents</button>
+              <button class="opt-btn" onclick="pick(this,'mobilityChange','same')">About the same as my parents</button>
+              <button class="opt-btn" onclick="pick(this,'mobilityChange','better')">Somewhat better than my parents</button>
+              <button class="opt-btn" onclick="pick(this,'mobilityChange','muchbetter')">Much better than my parents</button>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goToStep(2)">← Back</button>
+            <button class="btn btn-primary" onclick="next(3,4,['parentsClass','mobilityChange'])">Next →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 4: Education -->
+      <section class="step" id="step-4">
+        <div class="card">
+          <div class="step-icon">🎓</div>
+          <h2>Education</h2>
+          <p class="step-desc">Education is the strongest predictor of lifetime earnings. Workers with a bachelor's degree earn <strong>84% more</strong> over a lifetime than those with only a high school diploma (Georgetown Center on Education and the Workforce).</p>
+
+          <div class="form-group">
+            <label class="form-label">Highest level of education completed</label>
+            <div class="opt-col" id="education-opts">
+              <button class="opt-btn" onclick="pick(this,'education','nodiploma')">Less than high school diploma</button>
+              <button class="opt-btn" onclick="pick(this,'education','highschool')">High school diploma / GED</button>
+              <button class="opt-btn" onclick="pick(this,'education','somecollege')">Some college (no degree)</button>
+              <button class="opt-btn" onclick="pick(this,'education','associates')">Associate's degree</button>
+              <button class="opt-btn" onclick="pick(this,'education','bachelors')">Bachelor's degree</button>
+              <button class="opt-btn" onclick="pick(this,'education','graduate')">Graduate or professional degree (MBA, JD, MD, etc.)</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Current student loan debt</label>
+            <div class="opt-col" id="studentDebt-opts">
+              <button class="opt-btn" onclick="pick(this,'studentDebt','none')">No student debt</button>
+              <button class="opt-btn" onclick="pick(this,'studentDebt','under25k')">Less than $25,000</button>
+              <button class="opt-btn" onclick="pick(this,'studentDebt','25to50k')">$25,000 – $50,000</button>
+              <button class="opt-btn" onclick="pick(this,'studentDebt','50to100k')">$50,000 – $100,000</button>
+              <button class="opt-btn" onclick="pick(this,'studentDebt','over100k')">Over $100,000</button>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goToStep(3)">← Back</button>
+            <button class="btn btn-primary" onclick="next(4,5,['education','studentDebt'])">Next →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 5: Housing -->
+      <section class="step" id="step-5">
+        <div class="card">
+          <div class="step-icon">🏠</div>
+          <h2>Housing &amp; Homeownership</h2>
+          <p class="step-desc">Homeownership is the primary wealth-building vehicle for American families and a cornerstone of the Dream. <strong>65.6% of Americans</strong> own their home, though first-time ownership is at a near-50-year low (Census Bureau, 2023).</p>
+
+          <div class="form-group">
+            <label class="form-label">Your current housing situation</label>
+            <div class="opt-col" id="housingStatus-opts">
+              <button class="opt-btn" onclick="pick(this,'housingStatus','ownoutright'); showEquity(false)">Own my home outright (no mortgage)</button>
+              <button class="opt-btn" onclick="pick(this,'housingStatus','ownmortgage'); showEquity(true)">Own with a mortgage</button>
+              <button class="opt-btn" onclick="pick(this,'housingStatus','rent'); showEquity(false)">Rent</button>
+              <button class="opt-btn" onclick="pick(this,'housingStatus','other'); showEquity(false)">Other / unstable / living with family</button>
+            </div>
+          </div>
+
+          <div class="form-group" id="equityGroup" style="display:none">
+            <label class="form-label">Approximate home equity (% of home's value you own)</label>
+            <div class="opt-col" id="homeEquity-opts">
+              <button class="opt-btn" onclick="pick(this,'homeEquity','underwater')">Underwater / negative equity</button>
+              <button class="opt-btn" onclick="pick(this,'homeEquity','under20')">Less than 20%</button>
+              <button class="opt-btn" onclick="pick(this,'homeEquity','20to50')">20% – 50%</button>
+              <button class="opt-btn" onclick="pick(this,'homeEquity','over50')">More than 50%</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Housing costs as a % of gross monthly income (rent/mortgage + taxes + insurance)</label>
+            <div class="opt-col" id="housingCost-opts">
+              <button class="opt-btn" onclick="pick(this,'housingCostPct','under20')">Less than 20% — well within means</button>
+              <button class="opt-btn" onclick="pick(this,'housingCostPct','20to28')">20% – 28% — the recommended range</button>
+              <button class="opt-btn" onclick="pick(this,'housingCostPct','28to35')">28% – 35% — stretched but manageable</button>
+              <button class="opt-btn" onclick="pick(this,'housingCostPct','35to45')">35% – 45% — housing burdened</button>
+              <button class="opt-btn" onclick="pick(this,'housingCostPct','over45')">More than 45% — severely burdened</button>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goToStep(4)">← Back</button>
+            <button class="btn btn-primary" onclick="next(5,6,['housingStatus','housingCostPct'])">Next →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 6: Financial Security -->
+      <section class="step" id="step-6">
+        <div class="card">
+          <div class="step-icon">💳</div>
+          <h2>Financial Security</h2>
+          <p class="step-desc">Financial resilience determines whether setbacks derail your progress. <strong>56% of Americans</strong> cannot cover a $1,000 emergency expense without debt (Bankrate, 2024).</p>
+
+          <div class="form-group">
+            <label class="form-label">Emergency savings (months of living expenses you could cover)</label>
+            <div class="opt-col" id="emergencyFund-opts">
+              <button class="opt-btn" onclick="pick(this,'emergencyFund','none')">Less than 1 month</button>
+              <button class="opt-btn" onclick="pick(this,'emergencyFund','1to3')">1 – 3 months</button>
+              <button class="opt-btn" onclick="pick(this,'emergencyFund','3to6')">3 – 6 months</button>
+              <button class="opt-btn" onclick="pick(this,'emergencyFund','over6')">More than 6 months</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Retirement savings trajectory<br><small>Benchmark: 1× salary by 30 · 3× by 40 · 6× by 50 · 8× by 60 (Fidelity)</small></label>
+            <div class="opt-col" id="retirement-opts">
+              <button class="opt-btn" onclick="pick(this,'retirement','ahead')">Ahead of schedule</button>
+              <button class="opt-btn" onclick="pick(this,'retirement','ontrack')">On track</button>
+              <button class="opt-btn" onclick="pick(this,'retirement','slightlybehind')">Slightly behind</button>
+              <button class="opt-btn" onclick="pick(this,'retirement','significantlybehind')">Significantly behind</button>
+              <button class="opt-btn" onclick="pick(this,'retirement','notsaving')">Not saving for retirement yet</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Non-mortgage debt (credit cards, auto, personal loans) as % of annual income</label>
+            <div class="opt-col" id="debtRatio-opts">
+              <button class="opt-btn" onclick="pick(this,'debtRatio','under10')">Less than 10% — minimal debt</button>
+              <button class="opt-btn" onclick="pick(this,'debtRatio','10to20')">10% – 20%</button>
+              <button class="opt-btn" onclick="pick(this,'debtRatio','20to35')">20% – 35%</button>
+              <button class="opt-btn" onclick="pick(this,'debtRatio','35to50')">35% – 50%</button>
+              <button class="opt-btn" onclick="pick(this,'debtRatio','over50')">More than 50% — high debt burden</button>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goToStep(5)">← Back</button>
+            <button class="btn btn-primary" onclick="next(6,7,['emergencyFund','retirement','debtRatio'])">Next →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 7: Health -->
+      <section class="step" id="step-7">
+        <div class="card">
+          <div class="step-icon">🏥</div>
+          <h2>Health Security</h2>
+          <p class="step-desc">Medical debt is a top cause of financial ruin in the U.S. — and the leading driver of bankruptcy. <strong>8.6% of Americans remain uninsured</strong> and 1 in 4 skip needed care due to cost (CDC, 2023).</p>
+
+          <div class="form-group">
+            <label class="form-label">Health insurance coverage</label>
+            <div class="opt-col" id="insurance-opts">
+              <button class="opt-btn" onclick="pick(this,'insurance','employer')">Yes — employer-sponsored plan</button>
+              <button class="opt-btn" onclick="pick(this,'insurance','private')">Yes — private / ACA marketplace plan</button>
+              <button class="opt-btn" onclick="pick(this,'insurance','government')">Yes — Medicare or Medicaid</button>
+              <button class="opt-btn" onclick="pick(this,'insurance','uninsured')">No — currently uninsured</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">How affordable are your out-of-pocket healthcare costs?</label>
+            <div class="opt-col" id="healthAfford-opts">
+              <button class="opt-btn" onclick="pick(this,'healthAfford','always')">Always affordable — no financial stress</button>
+              <button class="opt-btn" onclick="pick(this,'healthAfford','usually')">Usually manageable</button>
+              <button class="opt-btn" onclick="pick(this,'healthAfford','sometimes')">Sometimes a financial stretch</button>
+              <button class="opt-btn" onclick="pick(this,'healthAfford','rarely')">Often a serious burden</button>
+              <button class="opt-btn" onclick="pick(this,'healthAfford','avoid')">I delay or avoid care due to cost</button>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goToStep(6)">← Back</button>
+            <button class="btn btn-primary" onclick="submitAndScore()">Calculate My Score →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULTS -->
+      <section class="step" id="step-results"></section>
+
+    </div><!-- /stepsRoot -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p><strong>Research Sources:</strong> Raj Chetty et al., "The Fading American Dream" (2017) &amp; Opportunity Atlas (2018) · U.S. Census Bureau ACS (2022–2023) · Federal Reserve Survey of Consumer Finances · Georgetown Center on Education and the Workforce · Pew Research Center Economic Mobility Studies · Bankrate Emergency Savings Report (2024) · CDC National Health Interview Survey (2023) · Fidelity Retirement Savings Guidelines · HUD Housing Cost Burden Standards</p>
+      <p class="footer-disclaimer">For educational purposes only. Individual circumstances vary. This tool does not constitute financial advice.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
